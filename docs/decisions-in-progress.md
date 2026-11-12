@@ -36,7 +36,7 @@ Source: `TUTOR_PROJECT_BRIEF.md`. These notes record user answers during the gri
 ## Initial build decisions
 
 - Saved materials, learning history, and plans remain available offline. AI interactions show an unavailable state, preserve drafts, and require explicit retry after failure; do not silently send queued messages later. Local editing and offline availability expand with the corresponding features' milestones.
-- Select MIT for Tutor's own code, subject to checking compatibility with the official integration's terms. Third-party components retain their own licenses. The project license file is added for independently authored Tutor code; the DevKit is not included.
+- Select MIT for Tutor's own code, subject to checking compatibility with the official integration's terms. Third-party components retain their own licenses. The project license file covers independently authored Tutor code; the approved DevKit dependency retains its separate noncommercial license.
 - During subscription feasibility work, build only a minimal Linux and macOS desktop shell with connection status and a prompt-response test area. Add course navigation and the study workspace after real inference is proven. This narrows the initial shell scope without redesigning the later accepted navigation.
 
 ## Next execution scope, after the interview
