@@ -1,6 +1,6 @@
 # Brief clarification interview
 
-Source: `TUTOR_PROJECT_BRIEF.md`. These notes record user answers during the grill-with-docs interview; the user confirmed the direction with a platform correction: both Linux and macOS must be supported. The minimal shell and feasibility report are implemented locally; the user approved the noncommercial DevKit dependency and the official integration spike is now implemented locally, pending real account and cross-platform validation.
+Source: `TUTOR_PROJECT_BRIEF.md`. These notes record user answers during the grill-with-docs interview; the user confirmed the direction with a platform correction: both Linux and macOS must be supported. The minimal shell and feasibility report are implemented locally; the user approved the noncommercial DevKit dependency and the official integration spike is now implemented locally, with the real macOS subscription journey subsequently verified by the owner in #4; remaining lifecycle and automated test work is tracked in #5 and #3.
 
 ## Confirmed
 
@@ -59,4 +59,31 @@ Source: `TUTOR_PROJECT_BRIEF.md`. These notes record user answers during the gri
 
 - Research found an official subscription-backed route and an OpenAI DevKit under a noncommercial custom license.
 - The user asked whether the DevKit is the ChatGPT integration helper. Clarified that it provides the official sign-in, credential handling, model discovery and streaming implementation; its license is separate from Tutor's MIT code.
-- The user explicitly approved the noncommercial DevKit dependency. Its pinned, unmodified local package is now included with its original license/notices, separate from Tutor MIT code. No real account login or inference is claimed.
+- The user explicitly approved the noncommercial DevKit dependency. Its pinned, unmodified local package is now included with its original license/notices, separate from Tutor MIT code. The later owner-run macOS test in #4 verified real sign-in and completed inference; agents did not receive credentials.
+
+## Linux automation and simulated integration interview — confirmed
+
+The owner has no Linux machine and will not share account credentials with the
+agent. Their real-account macOS journey was verified manually and recorded in
+closed ticket #4. This interview revises the live-Linux requirement. The owner confirmed the shared
+understanding and authorized documentation/ticket updates; stub implementation
+remains a separate step.
+
+### Confirmed in this interview
+
+- macOS is the owner's manual real-account verification platform. Linux remains supported for builds and automated tests; live Linux authentication is explicitly unverified and is not a prerequisite for successful Linux automated tests.
+- Run the actual desktop UI, preload, IPC and main-process application logic while substituting a controlled stub at the ChatGPT SDK interface. Separate SDK/protocol tests can be added where needed; stub results do not prove service behavior.
+- Enable the stub only through an explicit development/test launch, visibly labeled “Simulated ChatGPT”, using an isolated test profile. Never activate it automatically after a real connection fails.
+
+### Further confirmed decisions
+
+- Initial deterministic scenarios cover connection/disconnection, model discovery, completed streaming, cancellation, interrupted output, expired credentials, missing subscription permission, usage limits and unavailable credential storage. No real provider traffic is allowed in simulated runs.
+- The same scripted scenarios support automated tests and interactive agent-driven testing of the real desktop application. Initial responses are predictable fixtures, not a simulated general-purpose AI.
+- Repurpose #3 into agent-run simulated integration tests and change its readiness to ready-for-agent. Revise #5 to combine automated failure/recovery coverage with the owner's manual macOS credential-lifecycle checks. Keep #4 closed as the manually verified macOS subscription journey.
+- Preserve the downstream dependency gate through #5. Its required inputs become #3's automated evidence and #4's real macOS evidence, plus the remaining manual macOS lifecycle checks. Live Linux authentication remains explicitly unverified and does not block the automated Linux tests or subsequent milestones after this revised gate passes.
+
+### Interview status
+
+All six questions and the final shared summary were confirmed on 2026-11-12.
+Update the published spec and tickets to match ADR-0005. Existing application
+behavior is unchanged; the stub is not implemented by this documentation update.

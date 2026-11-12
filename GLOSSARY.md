@@ -22,3 +22,6 @@ An assessment challenged by the learner whose source-based review remains inconc
 
 **Assisted practice**:
 Practice where the learner has received help, including a revealed solution. The recorded evidence distinguishes that help from independent demonstration of understanding.
+
+**Simulated ChatGPT**:
+An explicitly labeled development/test substitute that provides scripted connection states and tutor responses without a real account or provider traffic. Its results verify Tutor's behavior and do not establish live authentication, subscription access or OS credential protection.
