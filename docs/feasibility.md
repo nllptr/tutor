@@ -69,3 +69,17 @@ interface. Tutor's independent code remains MIT. This supersedes the pending
 licensing decision above, not the live-validation gates. No real authorization,
 account eligibility or inference result is claimed. See
 [manual checks](manual-integration-test.md) and [risks](risks.md).
+
+## Later validation and platform decision — 2026-11-12
+
+The owner subsequently verified the real macOS subscription journey in #4 on
+macOS 27.0.1 / Apple M3 / GPT-6.1-Sol, including explicit completed-response
+status and reuse of saved credentials after restart. This updates the earlier
+research-time absence of account evidence; it does not establish expiry,
+locked-Keychain behavior, refresh-token rotation or remote revocation.
+
+ADR-0005 now separates manual real-account macOS validation from account-free
+automated Linux application testing. The agreed SDK-interface stub is planned
+in #3 and is not implemented by this documentation change. #5 retains the
+combined automated/manual development gate. Live Linux authentication remains
+explicitly unverified and is no longer required to pass that gate.

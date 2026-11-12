@@ -4,9 +4,10 @@ An independent, local-first learning companion. Not an official OpenAI product.
 
 This first increment is an **Electron + React + TypeScript integration spike for
 Linux and macOS**: official ChatGPT subscription sign-in, model discovery, and one
-cancellable streamed prompt-response request. Real account/inference success and
-macOS device behavior are **not yet verified**. There is no simulated response,
-API-key input, or separately billed API fallback.
+cancellable streamed prompt-response request. The owner manually verified the
+real macOS journey and credential reuse after restart in [#4](https://github.com/nllptr/tutor/issues/4).
+Live Linux authentication remains unverified. There is no API-key input or
+separately billed API fallback.
 
 ## Run
 
@@ -38,6 +39,23 @@ Playwright's smoke launcher uses test-only Chromium flags; normal app commands d
 not disable the OS sandbox. The Linux smoke deliberately forces the insecure
 password backend and verifies Tutor blocks sign-in. Both platforms' smoke tests
 use isolated temporary userData folders. CI runs checks on Ubuntu and macOS.
+
+## Test strategy
+
+macOS is the owner's manual real-account validation platform. Linux remains
+supported for builds/runtime and agent-run automated tests without credentials.
+The confirmed follow-up in [#3](https://github.com/nllptr/tutor/issues/3) will run
+the actual UI/preload/IPC/main-process logic against a deterministic substitute
+at the ChatGPT SDK interface, supporting automated and interactive testing.
+It must use an explicit development/test launch, isolated profile, visible
+“Simulated ChatGPT” labeling and no real provider traffic. It must never silently
+activate after real connection failure. **This stub is planned, not implemented.**
+
+The revised gate in [#5](https://github.com/nllptr/tutor/issues/5) combines these
+automated checks with the verified macOS journey and remaining manual macOS
+credential-lifecycle checks. Simulated results do not prove service behavior or
+OS credential protection. Live Linux authentication is not required to pass this
+gate. See [ADR-0005](docs/adr/0005-platform-validation-and-simulation.md).
 
 ## Subscription status and license
 

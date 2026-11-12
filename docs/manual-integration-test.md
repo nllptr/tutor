@@ -1,8 +1,11 @@
 # Real subscription integration validation
 
-The implementation is an integration spike, not proof of working subscription
-inference. Run these checks on **Linux and macOS** with your own eligible ChatGPT
-account. Never paste tokens or credentials into Tutor, GitHub, logs, or chat.
+Run real-account checks **manually on macOS**, using your own eligible ChatGPT
+account. Agents do not receive account credentials. Linux remains a build/runtime
+and automated-test platform; live Linux authentication is explicitly unverified
+and is not required by the revised development gate. An optional future manual
+Linux test would require separate human account/device participation. Never paste
+tokens or credentials into Tutor, GitHub, logs, or chat.
 Do not use an API key. The official SDK uses the documented subscription bearer
 credential internally, even though its OpenAI SDK call labels that parameter
 `apiKey`; Tutor does not read an API key from a user or environment variable.
@@ -41,9 +44,20 @@ npm run dev
    pass. A login or successful model listing alone does not pass either.
 5. Record OS/architecture, date, selected model, completion/failure category and
    observed behavior in a local note. Do not include credentials or private prompt
-   content. Until actual results are recorded, inference remains unproven.
+   content. A response counts as proven only when the app explicitly reports completion;
+   simulated responses never satisfy this requirement.
 
-## Failure, cancellation and restart
+## Recorded macOS result
+
+The owner completed #4 on 2026-11-12: macOS 27.0.1, Apple Silicon M3,
+GPT-6.1-Sol. Sign-in, model discovery/selection and a response with **Real response
+completed in this session** succeeded. After restart, the connection remained
+available and model refresh and inference worked without signing in again.
+The disclosure checkbox needed checking again before sending; this is separate
+from credential persistence. These are owner-reported functional observations,
+not an independent inspection of Keychain contents.
+
+## Remaining macOS lifecycle checks (#5)
 
 - Begin sign-in and cancel it from Tutor. Retry explicitly and confirm a new
   authorization can start. Decline consent in the browser and verify an actionable
@@ -72,8 +86,13 @@ store. A nonsecret installation identifier is persisted separately. Disconnect
 retains registration metadata but removes active credentials. No credential path
 or file contents are exposed to the renderer.
 
-Automated tests use a separate temporary userData folder, no real account, and no
-networked inference. They validate behavior with mocked SDK results and verify
+Existing automated tests use a separate temporary userData folder, no real
+account and no networked inference. The approved follow-up in #3 will add a
+controlled SDK-interface stub to exercise connected behavior through the actual
+UI, preload, IPC and main process. It will require an explicit development/test
+launch, an isolated profile, visible “Simulated ChatGPT” labeling, deterministic
+scenarios and no real provider traffic. It is not implemented yet. Existing tests
+validate behavior with mocked SDK results and verify
 that the Linux insecure backend is blocked. They do not establish OAuth success,
 actual secure-store persistence or eligibility. Installer packaging, signing,
 notarization, structured lesson output and the study UI remain later work.

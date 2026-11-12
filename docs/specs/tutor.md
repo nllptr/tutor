@@ -80,7 +80,7 @@ challenge feedback, request explanations, and delete learning history.
 ## Implementation Decisions
 
 - Deliver in gated increments. The immediate scope is feasibility, a minimal desktop shell, and official authorization plus one real streamed prompt-response request. Later stories are requirements for subsequent milestones, not instructions to implement the whole product now.
-- Use Electron, React and TypeScript, with trusted Node-based integration in the main process, electron-vite and npm with a committed lockfile. Support Linux and macOS from the first shell; the agent verifies Linux and the owner performs local macOS validation.
+- Use Electron, React and TypeScript, with trusted Node-based integration in the main process, electron-vite and npm with a committed lockfile. Retain Linux and macOS build/runtime support. Agents verify application behavior on Linux without real accounts; the owner manually verifies the real integration on macOS. Live Linux authentication remains explicitly unverified and is not a development gate.
 - Use the officially supported ChatGPT subscription path only. If access is unavailable, gated or incompatible, document the blocker and retain a working shell. Separately billed API usage, including opt-in fallback, is excluded.
 - Use the pinned, unmodified official local DevKit under its own noncommercial license and preserve its notices. The user accepted that restriction; independently authored Tutor code remains MIT. The combined distribution is not unrestricted MIT software.
 - The trusted process owns authorization, identity verification, protected credential persistence, refresh, model discovery, requests and revocation. Renderer code receives only safe status, model information, response text and sanitized errors through narrow validated IPC.
@@ -103,7 +103,11 @@ challenge feedback, request explanations, and delete learning history.
 - Existing prior art consists of mocked integration tests and an actual Electron smoke test. Extend these rather than inventing another test layer. Contract tests cover discovered-model selection, exact prompt context, no automatic retry, incomplete output, cancellation, reauthentication/revocation feedback, payload rejection and credential-storage rejection.
 - The Electron smoke checks visible rendering and draft editing, disabled sending without connection/consent/model, renderer isolation, narrow validated IPC, denied popups and the insecure Linux-storage gate. It uses an isolated test profile, without real credentials or networked inference.
 - Typecheck, lint, automated tests and a production build are required checks. Run the desktop smoke on Linux and macOS in CI. Container-only test sandbox flags must never become default application launch behavior.
-- A real-account manual test on both platforms is required for the immediate integration gate: system-browser consent, granted inference permission, account model discovery, a completed subscription-backed request, streaming, cancellation, visible errors, credential persistence, restart/reconnection, expiry and disconnect behavior. A mocked result, login, model list or text delta alone is insufficient.
+- Require real-account manual validation on macOS, performed by the owner without sharing credentials with agents. The owner has verified sign-in, model discovery, a completed subscription response and credential persistence across restart. Remaining real credential-lifecycle checks belong to the revised integration gate. A stubbed result, login, model list or text delta alone cannot establish real inference.
+- Run the actual desktop UI, preload, IPC and main-process application logic on Linux with a controlled substitute at the existing ChatGPT SDK interface. No real account, browser consent, subscription usage or provider traffic is allowed in simulated runs. Separate SDK/protocol tests may be added where needed; application stubs do not establish official service behavior or protected OS storage.
+- Initial deterministic scenarios cover connection/disconnection, model discovery, completed streaming, cancellation, interrupted output, expired credentials, missing subscription permission, usage limits and unavailable credential storage. Reuse the scenarios for automated and interactive agent testing, initially with predictable scripted responses rather than a general-purpose simulated AI.
+- Simulation requires an explicit development/test launch, an isolated profile and visible “Simulated ChatGPT” labeling. It must not activate in normal app use, silently after a real failure, or report simulated success as real inference. The existing real-provider security path remains protected.
+- The revised development gate combines completed automated simulated coverage, the owner's verified real macOS journey and remaining manual macOS lifecycle checks. Live Linux authentication is explicitly unverified; it is no longer required to pass this gate.
 - Later learning tests cover source selection, assistance-aware evidence, conflicting material, challenged/disputed feedback, optional deadlines, resumptions and recalculation after deletion. Confirm concrete interfaces before implementing those later milestones.
 - Structured lesson output is not established by ordinary text streaming. Verify the subscription route's supported output contract and validate completion, refusal, shape and domain rules before relying on generated assessments.
 
@@ -118,19 +122,27 @@ Unofficial ChatGPT automation, cookie/token extraction, private endpoints, paste
 ## Further Notes
 
 This spec synthesizes the original project brief, the confirmed Q1–Q20 interview
-answers, the Linux/macOS correction, and the later approval of the DevKit license.
+answers, the Linux/macOS correction, the approval of the DevKit license, and the confirmed
+revision separating real macOS validation from automated Linux simulation.
 It does not reopen the product interview or retroactively imply that unverified
 requirements have passed. Confirmed interview decisions supersede conflicting
 options in the initial brief.
 
-Implementation is proposed in [PR #1](https://github.com/nllptr/tutor/pull/1).
+The initial shell and integration were merged through [PR #1](https://github.com/nllptr/tutor/pull/1).
 Typecheck, lint, build, 16 mocked tests, Linux production smoke and development
-rendering checks passed locally. macOS device validation and real account consent,
-inference, secure-store persistence, refresh and revocation remain unverified.
-GitHub CI was configured; no new claim about its current remote results is made.
+rendering checks passed locally. Ubuntu and macOS CI passed on the merged shell.
+The owner verified the real journey on macOS 27.0.1, Apple Silicon M3, using
+GPT-6.1-Sol, including the app's explicit completed-response status and successful
+model refresh/inference after restart without reauthentication; #4 is completed.
+Locked-Keychain behavior, expiry/refresh and revocation remain unverified.
+The confirmed simulation strategy is planned work, not an implemented stub or
+additional test result. Live Linux authentication remains unverified.
 
-The immediate integration is accepted only after the real-account and platform
-checks above pass, or is explicitly recorded as blocked with a working shell.
+The immediate integration gate is accepted only after the revised automated
+checks and manual macOS checks above pass, or is explicitly recorded as blocked
+with a working shell. Ticket #3 owns simulated app coverage, #4 records the
+completed real macOS journey, and #5 combines the evidence with remaining
+macOS lifecycle checks.
 Passing that gate permits the next milestone; it does not authorize the entire
 later roadmap in a single implementation step.
 
