@@ -1,0 +1,31 @@
+:root { font-family: system-ui, -apple-system, sans-serif; color: #e5e7eb; background: #111827; color-scheme: dark; line-height: 1.6; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { width: min(820px, 100%); margin: 0 auto; padding: 40px 28px; }
+header { margin-bottom: 30px; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; color: #93c5fd; }
+h1 { font-size: clamp(26px, 4vw, 36px); margin: 8px 0; line-height: 1.25; }
+h2 { font-size: 18px; margin: 0; }
+p { margin: 10px 0; }
+header p, .note, footer { color: #b6c2d3; }
+section { border: 1px solid #475569; border-radius: 6px; padding: 22px; margin: 20px 0; background: #182234; }
+.section-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.badge { font-size: 12px; padding: 3px 10px; border: 1px solid #64748b; border-radius: 4px; }
+.actions { display: flex; gap: 10px; margin-top: 16px; }
+button, textarea { font: inherit; border-radius: 4px; }
+button { padding: 8px 14px; border: 1px solid #64748b; background: #26354d; color: #cbd5e1; }
+button:disabled { cursor: not-allowed; }
+label { display: block; margin: 16px 0 6px; font-size: 14px; }
+textarea { width: 100%; resize: vertical; padding: 12px; color: #f1f5f9; background: #111827; border: 1px solid #64748b; }
+:focus-visible { outline: 3px solid #93c5fd; outline-offset: 3px; }
+.note, footer { font-size: 13px; }
+.response { margin-top: 20px; padding: 14px; border-left: 3px solid #64748b; color: #cbd5e1; }
+@media (max-width: 680px) { main { padding: 24px 16px; } section { padding: 16px; } }
+.consent { display: flex; align-items: start; gap: 10px; font-size: 13px; }
+.consent input { margin-top: 5px; flex-shrink: 0; }
+select { min-width: 0; flex: 1; font: inherit; background: #111827; color: #e5e7eb; padding: 8px; border: 1px solid #64748b; border-radius: 4px; }
+.actions { flex-wrap: wrap; }
+button:enabled { background: #1d4ed8; color: white; cursor: pointer; }
+button:enabled:hover { background: #1e40af; }
+.response { white-space: pre-wrap; overflow-wrap: anywhere; }
+.error { border: 1px solid #fca5a5; padding: 14px; color: #fecaca; }

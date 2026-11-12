@@ -1,0 +1,48 @@
+{
+  "name": "tutor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An independent, local-first learning companion",
+  "license": "MIT",
+  "main": "out/main/index.mjs",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "electron-vite dev",
+    "start": "electron-vite preview",
+    "build": "electron-vite build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "check": "npm run typecheck && npm run lint && npm test && npm run build",
+    "test:smoke": "node scripts/smoke.mjs",
+    "build:siwc": "tsc -p vendor/siwc-devkit/packages/local/tsconfig.json && node vendor/siwc-devkit/scripts/copy-package-notices.mjs vendor/siwc-devkit/packages/local/dist",
+    "predev": "npm run build:siwc",
+    "prebuild": "npm run build:siwc",
+    "pretypecheck": "npm run build:siwc",
+    "test": "vitest run tests",
+    "pretest": "npm run build:siwc"
+  },
+  "dependencies": {
+    "@siwc/local": "file:vendor/siwc-devkit/packages/local",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.0",
+    "@swc/core": "^1.16.22",
+    "@types/node": "^26.6.6",
+    "@types/proper-lockfile": "^4.1.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "electron": "^45.3.1",
+    "electron-vite": "^6.0.0",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

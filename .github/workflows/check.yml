@@ -1,0 +1,26 @@
+name: Check
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx install-electron --no
+      - run: npm run check
+      - name: Linux desktop smoke
+        if: runner.os == 'Linux'
+        run: xvfb-run -a npm run test:smoke
+      - name: macOS desktop smoke
+        if: runner.os == 'macOS'
+        run: npm run test:smoke
