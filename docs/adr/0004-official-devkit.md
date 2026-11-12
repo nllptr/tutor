@@ -1,0 +1,5 @@
+# Use the official noncommercial subscription SDK
+
+Use OpenAI's local Sign in with ChatGPT DevKit, pinned to commit `0a36fefeb913055c8c7a1a29b63d82b96b2e841a`, for authorization, identity verification, encrypted credential persistence, refresh, model discovery, streaming and revocation. The user explicitly accepted its noncommercial restriction after reviewing the difference from Tutor's MIT code. Preserve the SDK source and notices under its original license; do not describe the whole bundle as unrestricted MIT. A commercial purpose would require a new licensing decision or written permission from OpenAI.
+
+The SDK is not assumed to be published to npm. Vendor its unmodified local package and build it as a local dependency. Keep the SDK in Electron's main process. Use the system browser, the supported loopback flow, and platform credential encryption, rejecting Linux basic_text. The synchronous safeStorage format is retained for this spike despite deprecation; migrate only after verifying async backend and key-rotation behavior on both target platforms.
